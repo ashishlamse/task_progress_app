@@ -1,0 +1,84 @@
+.login-card {
+  background-color: transparent !important;
+  /* border: none !important; */
+  box-sizing: border-box;
+  max-width: calc(410px + 1rem);
+  margin: 0 auto;
+  padding: 0 2rem;
+  box-shadow: none !important;
+  padding-top: 10%;
+  padding-bottom: 6%;
+}
+.card-style {
+  background: #fdfdfd;
+  padding: 12px;
+}
+
+.card-label {
+  display: block;
+  margin-bottom: 0rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 2rem;
+  text-transform: initial;
+  letter-spacing: initial;
+  padding-left: 0px !important;
+  font-family: "Montserrat";
+}
+
+.input-margin {
+  margin-bottom: 10px;
+}
+.errorMsg {
+  color: red;
+  margin-top: -7px;
+  font-size: small;
+  font-family: "Montserrat";
+}
+
+.link-btn-style {
+  font-weight: 400;
+  font-family: "Montserrat";
+  font-size: 15px;
+  color: #333333;
+}
+
+.heading-font {
+  margin-top: 1rem;
+  font-weight: bold;
+  font-family: "Montserrat";
+  text-align: center;
+}
+.login-btn {
+  background: #666666 !important;
+  border: transparent;
+  color: white !important;
+  margin: 1rem 0px 1rem 0px !important;
+  padding: 6px 15px;
+  border-radius: 4px;
+  width: 100%;
+  outline: none !important;
+  font-family: "Montserrat";
+}
+.spacer {
+  padding-left: 8px;
+  padding-right: 8px;
+}
+.margin-left-3px {
+  margin-left: 3px;
+}
+
+.logo-style {
+  width: 40%;
+  height: 40%;
+  object-fit: contain;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.img-conatiner {
+  background-color: #666666;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
