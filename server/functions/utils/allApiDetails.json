@@ -1,0 +1,86 @@
+[{
+    "apiTitle": "Register user.",
+    "apiUrl": "/users",
+    "method": "post",
+    "Description": "This api is used to register users.",
+    "params": {
+        "first_name":"abcd",
+            "last_name":"abcd",
+            "email":"abc@gmail.com",
+            "password":"122345"
+        }
+},{
+    "apiTitle": "Sign in api",
+    "apiUrl": "/signIn",
+    "method": "post",
+    "Description": "This api is usefull to sign in.",
+    "params": {
+               "email":"abc@gmail.com",
+               "password":"1234ff"
+    }
+},{
+    "apiTitle": "Add task",
+    "apiUrl": "/task",
+    "method": "post",
+    "Description": "This api is usefull to add task.",
+    "params": {
+            "deadline":"DateObject",
+            "task_name":"demo",   
+            "description":"demo testing",
+            "priority":"High",
+            "status":"Verified",
+            "imageFile":"/9j/4AAQSkZJRgABAQAAAQABAAD/"
+    }
+} ,
+{
+    "apiTitle": "Get tasks",
+    "apiUrl": "/task",
+    "method": "get",
+    "Description": "This api is usefull to get tasks.",
+    "params": "No parameter required."
+},
+{
+    "apiTitle": "Submit tasks",
+    "apiUrl": "/task/submit/:id",
+    "method": "put",
+    "Description": "This api is usefull to submit tasks.",
+    "params": "No parameter required."
+},
+{
+    "apiTitle": "Delete tasks",
+    "apiUrl": "/task/:id",
+    "method": "delete",
+    "Description": "This api is usefull to delete tasks.",
+    "params": "No parameter required."
+},{
+    "apiTitle": "Update tasks",
+    "apiUrl": "/task/:id",
+    "method": "put",
+    "Description": "This api is usefull to update tasks.",
+    "params": {
+            "deadline":"DateObject",
+            "task_name":"demo",   
+            "description":"demo testing",
+            "priority":"High",
+            "status":"Verified",
+            "imageFile":"/9j/4AAQSkZJRgABAQAAAQABAAD/",
+            "imageFlag":"true or false"
+    }
+    },{
+        "apiTitle": "Update status of tasks",
+        "apiUrl": "/task/status/:id",
+        "method": "put",
+        "Description": "This api is usefull to update status of tasks.",
+        "params": {
+                "status":"Verified"
+        }
+        },
+        {
+            "apiTitle": "Chart of tasks",
+            "apiUrl": "/task/chart",
+            "method": "get",
+            "Description": "This api is usefull to get data of chart.",
+            "params": "No parameter required."
+            }
+
+]
