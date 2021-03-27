@@ -1,10 +1,8 @@
-const loginApiRouter = require('../../controller/login/loginModule');
+ const authApiRouter = require('../../controller/authentication/authApi');
 const authRouter = require('express').Router();
 
-// auth router
-authRouter.post('/logIn', loginApiRouter.logIn);
-authRouter.post('/forgotPassword', loginApiRouter.forgotPassword);
-authRouter.put('/resetPassword', loginApiRouter.resetPassword);
+ // auth router
+ authRouter.post('/signIn', authApiRouter.signIn);
 
 
-module.exports = authRouter;
+ module.exports = authRouter;
