@@ -1,0 +1,12 @@
+.icon-style {
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.submit-task-btn-style {
+  background-color: #95c94f !important;
+  color: #000 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-width: 0px !important;
+}

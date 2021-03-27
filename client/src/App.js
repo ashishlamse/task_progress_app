@@ -5,6 +5,10 @@ import './App.css'
 import { routePathNames } from '../src/utils/constants'
 import SignIn from "./container/signIn";
 import SignUp from "./container/signUp";
+import DashBoard from "./container/dashboard";
+
+import "./css/createTask.css"
+import "./css/task.css"
 
 const history = createBrowserHistory();
 
@@ -16,10 +20,10 @@ class App extends Component {
     render() {
         return (
             <Router basename={process.env.PUBLIC_URL} history={history}>
-                <Route exact path={routePathNames.SIGNIN} component={SignIn} />
-                <Route exact path={routePathNames.SIGNUP} component={SignUp} />
+                <Route exact path={routePathNames.SIGNIN} render={(routeProps) => <SignIn {...routeProps} />} />
+                <Route exact path={routePathNames.SIGNUP} render={(routeProps) => <SignUp {...routeProps} />} />
                 <Switch>
-                    {/* <Route path={routePathNames.DASHBOARD} component={Dashboard} /> */}
+                    <Route path={routePathNames.DASHBOARD} render={(routeProps) => <DashBoard {...routeProps} />} />
                 </Switch>
             </Router>
         );

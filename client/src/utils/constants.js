@@ -20,5 +20,24 @@ export const routePathNames = {
     SIGNIN: "/",
     SIGNUP: "/signUp",
     DASHBOARD: '/dashboard',
+    CREATE_TASK: "/dashboard/createTask",
+    UPDATE_TASK: "/dashboard/updateTask",
+    TASK_LIST: "/dashboard/taskList",
+    CHARTS: "/dashboard/statistics"
 
 }
+
+export const sideBarRoutes = [
+    {
+        name: "Task List",
+        path: routePathNames.TASK_LIST,
+    },
+    {
+        name: "Create Task",
+        path: routePathNames.CREATE_TASK,
+    },
+    {
+        name: "Statistics",
+        path: routePathNames.CHARTS,
+    },
+];

@@ -45,11 +45,10 @@ class SignIn extends Component {
 
   /* submit function */
   submituserLoginForm = (e) => {
-    utils.setCorsHeader();
     e.preventDefault();
     if (this.validateForm()) {
       let body = {
-        username: this.state.email,
+        email: this.state.email,
         password: this.state.password,
       };
       this.props
@@ -58,10 +57,8 @@ class SignIn extends Component {
           let result = this.props.signinSuccessFailure;
           if (result && result.isSuccess) {
             console.log("SignIn -> submituserLoginForm -> result", result);
-            // axios.defaults.headers.common["x-access-token"] =
-            //   result.response.token;
             utils.setAccessToken(result.response.token);
-            this.props.history.push(routePathNames.DASHBOARD);
+            this.props.history.push(routePathNames.TASK_LIST);
           } else {
             this.showSnackBarEvent(
               result && result.message
@@ -155,10 +152,10 @@ class SignIn extends Component {
                       </button>
                     </div>
                     <div className="text-center">
-                      <Link to={routePathNames.FORGOT_PASSWORD} className="link-btn-style">
+                      {/* <Link to={routePathNames.FORGOT_PASSWORD} className="link-btn-style">
                         Forgot Password?
                       </Link>
-                      <span className="spacer">|</span>
+                      <span className="spacer">|</span> */}
                       <Link
                         to={routePathNames.SIGNUP}
                         className="link-btn-style margin-left-3px"
