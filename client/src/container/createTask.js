@@ -11,6 +11,7 @@ import ImageDropZone from '../component/imageDropZone';
 import "../css/createTask.css"
 import "react-datepicker/dist/react-datepicker.css";
 import { alert } from '../utils/constants'
+import { createNewTask } from '../redux/actions/task'
 
 class CreateTask extends Component {
     constructor(props) {
@@ -157,14 +158,13 @@ class CreateTask extends Component {
     };
 
     checkEmpty = () => {
-        let { taskName, taskDescription, selectedPriority, selectedStage, deadlineDate } = this.state;
+        let { taskName, taskDescription, selectedPriority, selectedStage, deadlineDate, imageData } = this.state;
         if (
             taskName === "" ||
             taskDescription === "" ||
-            selectedPriority === "" ||
-            selectedStage === "" ||
-            deadlineDate === ""
-        ) {
+            _.isEmpty(selectedStage) ||
+            _.isEmpty(selectedPriority) ||
+            deadlineDate === "") {
             return false;
         } else {
             return true;
@@ -172,10 +172,53 @@ class CreateTask extends Component {
     };
 
     submitTask = () => {
+        let { taskName, taskDescription, selectedPriority, selectedStage, deadlineDate, imageData } = this.state;
+        let data = imageData[0];
+        let baseData =
+            data && data.base64 ? data.base64.split(",")[1] : '';
         if (this.checkEmpty()) {
+            let body = {
+                "deadline": deadlineDate,
+                "task_name": taskName,
+                "description": taskDescription,
+                "priority": selectedPriority && selectedPriority.value ? selectedPriority.value : "",
+                "status": selectedStage && selectedStage.value ? selectedStage.value : "",
+                "imageFile": baseData
+            }
+            console.log("submitTask body", body)
+            this.createTaskApiCall(body);
         } else {
             this.showSnackBarEvent(alert.mandatoryFields);
         }
+    }
+
+    clearData = () => {
+        this.setState({
+            taskName: "",
+            taskDescription: "",
+            selectedPriority: '',
+            selectedStage: '',
+            imageData: [{}],
+            deadlineDate: ''
+        })
+    }
+
+    createTaskApiCall = (body) => {
+        this.props
+            .dispatch(createNewTask(body))
+            .then(() => {
+                let result = this.props.createNewTaskSuccessFailure;
+                if (result && result.isSuccess) {
+                    console.log("createTaskApiCall -> result", result);
+                    this.showSnackBarEvent(result.response.message);
+                    this.clearData();
+                } else {
+                    this.showSnackBarEvent(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
     }
 
     handleSnackBar = () => {
@@ -275,12 +318,14 @@ class CreateTask extends Component {
 
 const mapStateToProps = (state) => {
     return {
+        isFetching: state.task.isFetching,
+        createNewTaskSuccessFailure: state.task.createNewTaskSuccessFailure,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
     ...bindActionCreators({
-
+        createNewTask
     }),
     dispatch,
 });

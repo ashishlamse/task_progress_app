@@ -1,0 +1,75 @@
+import AxiosInstance from "../../api/axios";
+import { GOOGLE_CLOUD_BASE_URL } from "../../api/axios"
+
+export const REQUEST_TASK = "REQUEST_TASK";
+export const CREATE_NEW_TASK_SUCCESS_FAILURE = "CREATE_NEW_TASK_SUCCESS_FAILURE";
+export const UPDATE_TASK_SUCCESS_FAILURE = "UPDATE_TASK_SUCCESS_FAILURE";
+export const DELETE_TASK_SUCCESS_FAILURE = "DELETE_TASK_SUCCESS_FAILURE";
+
+
+export function requestTaskLoad() {
+    return {
+        type: REQUEST_TASK
+    };
+}
+
+export function createNewTaskSuccessFailure(createNewTaskSuccessFailure) {
+    return {
+        type: CREATE_NEW_TASK_SUCCESS_FAILURE,
+        createNewTaskSuccessFailure
+    }
+}
+
+
+export function createNewTask(body) {
+    console.log("createNewTask -> body", body)
+    return dispatch => {
+        dispatch(requestTaskLoad());
+        return AxiosInstance.post(GOOGLE_CLOUD_BASE_URL + "task", body).then(res => {
+            dispatch(createNewTaskSuccessFailure({ isSuccess: true, response: res.data }))
+        }).catch(error => {
+            dispatch(createNewTaskSuccessFailure({ isSuccess: false, message: error.response.data.message }))
+        })
+    }
+}
+
+
+export function updateTaskSuccessFailure(updateTaskSuccessFailure) {
+    return {
+        type: UPDATE_TASK_SUCCESS_FAILURE,
+        updateTaskSuccessFailure
+    }
+}
+
+
+export function updateTask(body, id) {
+    console.log("updateTask -> body", body)
+    return dispatch => {
+        dispatch(requestTaskLoad());
+        return AxiosInstance.put(GOOGLE_CLOUD_BASE_URL + "" + id, body).then(res => {
+            dispatch(updateTaskSuccessFailure({ isSuccess: true, response: res.data }))
+        }).catch(error => {
+            dispatch(updateTaskSuccessFailure({ isSuccess: false, message: error.response.data.message }))
+        })
+    }
+}
+
+
+export function deleteTaskSuccessFailure(deleteTaskSuccessFailure) {
+    return {
+        type: DELETE_TASK_SUCCESS_FAILURE,
+        deleteTaskSuccessFailure
+    }
+}
+
+
+export function deleteDish(id) {
+    return dispatch => {
+        dispatch(requestTaskLoad());
+        return AxiosInstance.delete(GOOGLE_CLOUD_BASE_URL + "" + id).then(res => {
+            dispatch(deleteTaskSuccessFailure({ isSuccess: true, response: res.data }))
+        }).catch(error => {
+            dispatch(deleteTaskSuccessFailure({ isSuccess: false, message: error.response.data.message }))
+        })
+    }
+}
