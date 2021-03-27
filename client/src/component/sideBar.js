@@ -10,6 +10,27 @@ class Sidebar extends Component {
         window.location.href = routePathNames.SIGNIN
     }
 
+    handleHeading = () => {
+        let routeName = this.props.location;
+        let pathname = routeName.pathname;
+        let temp = pathname.split("/");
+        let name = temp[2];
+        console.log("handleHeading ~ name", name);
+        switch (name) {
+            case "createTask":
+                return "Create Task";
+                break;
+            case "taskList":
+                return "Task List";
+                break;
+            case "statistics":
+                return "Statistics";
+                break;
+            default:
+                return "Task List";
+        }
+    };
+
     render() {
         return (
             <div id="sidebar-container" class="sidebar-expanded d-none d-md-block">
@@ -17,7 +38,7 @@ class Sidebar extends Component {
                     {
                         sideBarRoutes.map((item) => {
                             return (
-                                <a onClick={() => this.props.onChangeTab(item)} class={this.props.activeTab === item.name ? "active-list-item-style list-group-item list-group-item-action" : "inactive-list-item-style list-group-item list-group-item-action"} id="list-home-list" data-toggle="list" href="#list-home" role="tab" aria-controls="home">{item.name}</a>
+                                <a onClick={() => this.props.onChangeTab(item)} class={this.handleHeading() === item.name ? "active-list-item-style list-group-item list-group-item-action" : "inactive-list-item-style list-group-item list-group-item-action"} id="list-home-list" data-toggle="list" role="tab" aria-controls="home">{item.name}</a>
                             )
                         })
                     }

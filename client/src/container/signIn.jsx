@@ -58,7 +58,7 @@ class SignIn extends Component {
           if (result && result.isSuccess) {
             console.log("SignIn -> submituserLoginForm -> result", result);
             utils.setAccessToken(result.response.token);
-            this.props.history.push(routePathNames.DASHBOARD);
+            this.props.history.push(routePathNames.TASK_LIST);
           } else {
             this.showSnackBarEvent(
               result && result.message

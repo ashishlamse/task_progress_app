@@ -102,6 +102,7 @@ body {
   font-family: "Montserrat";
   border-radius: 0px !important;
   letter-spacing: 0.5px;
+  cursor: pointer;
 }
 
 .inactive-list-item-style {
@@ -110,6 +111,7 @@ body {
   font-weight: normal;
   font-family: "Montserrat";
   border-radius: 0px !important;
+  cursor: pointer;
 }
 
 .inactive-list-item-style:hover {
@@ -118,6 +120,7 @@ body {
   font-weight: normal;
   font-family: "Montserrat";
   border-radius: 0px !important;
+  cursor: pointer;
 }
 
 .footer {

@@ -4,6 +4,7 @@ import Sidebar from '../component/sideBar';
 import Header from '../component/header';
 import {routePathNames} from '../utils/constants';
 import CreateTask from '../container/createTask'
+import TaskList from '../container/taskList'
 import {
     BrowserRouter as Redirect,
     Router,
@@ -11,18 +12,15 @@ import {
     Link,
     Switch,
   } from "react-router-dom";
+
+  
 class DashBoard extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            activeTab: "Create Task",
-        };
     }
 
     onChangeTab = (item) =>{
-        this.setState({
-            activeTab:item.name
-        })
+        this.props.history.push(item.path)
     }
 
     render() {
@@ -31,15 +29,21 @@ class DashBoard extends Component {
                 <Header/>
                 <div class="row" id="body-row">
                     <Sidebar 
-                        activeTab={this.state.activeTab}
                         onChangeTab={this.onChangeTab}
+                        {...this.props}
                     />
                     {/* routes */}
                     <div class="col">
                     <Switch>
                         <Route
-                        path={routePathNames.SIGNIN}
+                        exact
+                        path={routePathNames.CREATE_TASK}
                         render={(routeProps) => <CreateTask {...routeProps} />}
+                        />
+                        <Route
+                        exact
+                        path={routePathNames.TASK_LIST}
+                        render={(routeProps) => <TaskList {...routeProps} />}
                         />
                     </Switch>
                     </div>     

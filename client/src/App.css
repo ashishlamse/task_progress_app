@@ -10,3 +10,27 @@
   background-color: darkgrey;
   width: 100%;
 }
+
+.card-deck {
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+.remove-cols-padding {
+  padding-right: 0px !important;
+  padding-left: 0px !important;
+}
+
+.card-deck .card {
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+
+.num-of-line-1 {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  -webkit-box-orient: vertical;
+  word-break: break-all;
+}
