@@ -20,7 +20,7 @@ try{
 
 	const validpassword = await verifyPassword(req.body.password,user.password);
 	if (!validpassword) return res.status(404).json({message:message.INVALID_CREDENTIALS});
-
+	console.log(user)
 	const token = user.generateAuthToken();
 	res.status(200).json({message:message.LOGIN_SUCCESSFULL,token:token});	
 }catch(err){

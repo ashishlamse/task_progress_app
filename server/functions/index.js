@@ -40,17 +40,6 @@ app.get('/apisDoc', (req, res) => {
    */
   var connection=require('./service/database');
   connection.connection();
-// const mongodb = require('mongodb');
-
-// let uri = 'mongodb://AdminPatronous:123456@34.66.156.237:27017';
-//   uri = `${uri}/local`;
-// console.log(uri);
-// mongodb.MongoClient.connect(uri, (err, db) => {
-//   if (err) {
-//     throw err;
-//   }
-// })
-
 
 //Routers
  app.use(require('./router'));

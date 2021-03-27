@@ -31,7 +31,7 @@ const registrationSchema = new mongoose.Schema({
         minlength: 5,
         maxlength: 1024
     },
-    date:{
+    createdAt:{
         type:Date
     }
 });
@@ -41,7 +41,7 @@ const registrationSchema = new mongoose.Schema({
  */
 registrationSchema.methods.generateAuthToken = function () {
     console.log(process.env.secrete_key)
-    const token = jwt.sign({ email: this.email,first_name:this.first_name,last_name:this.last_name},process.env.secrete_key,{expiresIn: 86400});
+    const token = jwt.sign({ id:this._id,email: this.email,first_name:this.first_name,last_name:this.last_name},process.env.secrete_key,{expiresIn: 86400});
     return token;
 };
 
