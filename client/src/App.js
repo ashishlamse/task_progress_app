@@ -8,6 +8,7 @@ import SignUp from "./container/signUp";
 import DashBoard from "./container/dashboard";
 
 import "./css/createTask.css"
+import "./css/task.css"
 
 const history = createBrowserHistory();
 

@@ -26,6 +26,9 @@ class Sidebar extends Component {
             case "statistics":
                 return "Statistics";
                 break;
+            case "updateTask":
+                return "Create Task";
+                break;
             default:
                 return "Task List";
         }

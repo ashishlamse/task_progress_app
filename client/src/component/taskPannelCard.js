@@ -3,8 +3,9 @@
 
 import React from "react";
 import Card from "./Card";
+import EmptyPage from './emptyPage';
 
-export default class TicketPannelCard extends React.Component {
+export default class TaskPannelCard extends React.Component {
 
   render() {
     return (
@@ -21,9 +22,16 @@ export default class TicketPannelCard extends React.Component {
               >
                 {this.props.data && this.props.data.length
                   ? this.props.data.map((item) => {
-                    return <Card ticketDetails={item} />;
+                    return <Card
+                      title={this.props.title}
+                      taskDetails={item}
+                      showManageSection={this.props.showManageSection}
+                      editCallback={this.props.editCallback}
+                      deleteCallback={this.props.deleteCallback}
+                      submitCallback={this.props.submitCallback}
+                    />
                   })
-                  : ""}
+                  : <EmptyPage />}
               </div>
             </div>
           </div>

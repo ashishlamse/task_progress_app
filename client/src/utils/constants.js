@@ -21,6 +21,7 @@ export const routePathNames = {
     SIGNUP: "/signUp",
     DASHBOARD: '/dashboard',
     CREATE_TASK: "/dashboard/createTask",
+    UPDATE_TASK: "/dashboard/updateTask",
     TASK_LIST: "/dashboard/taskList",
     CHARTS: "/dashboard/statistics"
 

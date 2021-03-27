@@ -1,85 +1,111 @@
 // import "./styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import React, { Component } from "react";
-import TicketPannelCard from "../component/TicketPannelCard";
+import TaskPannelCard from "../component/taskPannelCard";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { useHistory, withRouter } from "react-router-dom";
+import ShowSnackBar from "../component/snackBar";
+import _ from "lodash";
+import Loading from "../component/loading";
+import { getAllTasks, deleteTask, submitTask } from '../redux/actions/task'
+import { routePathNames } from '../utils/constants'
 
 class TaskList extends Component {
     constructor() {
         super();
         this.state = {
-            ticketArr: [
-                {
-                    "id": 1111,
-                    "deadline": "DateObject",
-                    "task_name": "demo",
-                    "description": "demo testing",
-                    "priority": "High",
-                    "status": "Verified",
-                    createdBy: "yrg"
-                },
-                {
-                    "id": 1112,
-                    "deadline": "DateObject",
-                    "task_name": "demo",
-                    "description": "demo testing",
-                    "priority": "Low",
-                    "status": "Verified",
-                    createdBy: "yrg"
-                }, {
-                    "id": 1113,
-                    "deadline": "DateObject",
-                    "task_name": "demo",
-                    "description": "demo testing",
-                    "priority": "Low",
-                    "status": "Verified",
-                    createdBy: "yrg"
-                }, {
-                    "id": 1114,
-                    "deadline": "DateObject",
-                    "task_name": "demo",
-                    "description": "demo testing",
-                    "priority": "High",
-                    "status": "Verified",
-                    createdBy: "yrg"
-                }, {
-                    "id": 1115,
-                    "deadline": "DateObject",
-                    "task_name": "demo",
-                    "description": "demo testing",
-                    "priority": "High",
-                    "status": "Verified",
-                    createdBy: "yrg"
-                }, {
-                    "id": 1116,
-                    "deadline": "DateObject",
-                    "task_name": "demo",
-                    "description": "demo testing",
-                    "priority": "High",
-                    "status": "Verified",
-                    createdBy: "yrg"
-                }, {
-                    "id": 1117,
-                    "deadline": "DateObject",
-                    "task_name": "demo",
-                    "description": "demo testing",
-                    "priority": "Medium",
-                    "status": "Verified",
-                    createdBy: "yrg"
-                }, {
-                    "id": 1119,
-                    "deadline": "DateObject",
-                    "task_name": "demo",
-                    "description": "demo testing",
-                    "priority": "High",
-                    "status": "Verified",
-                    createdBy: "yrg"
-                },
-
-            ]
+            allTasks: [],
+            submittedTasks: [],
+            isDataLoaded: false
         };
     }
 
+    componentDidMount() {
+        this.fetchTasks();
+    }
+
+    handleSnackBar = () => {
+        this.setState({
+            toggle: false,
+        });
+    };
+
+    showSnackBarEvent = (msg, isSuccess = false) => {
+        this.setState({
+            toggle: true,
+            message: msg,
+            snackbarStatus: isSuccess,
+        });
+    };
+
+    fetchTasks = () => {
+        this.props
+            .dispatch(getAllTasks())
+            .then(() => {
+                let result = this.props.getAllTasksSuccessFailure;
+                if (result && result.isSuccess) {
+                    console.log("fetchTasks -> result", result);
+                    this.setState({
+                        allTasks: result.response.task,
+                        submittedTasks: result.response.submitedtask,
+                        isDataLoaded: true
+                    })
+                } else {
+                    this.showSnackBarEvent(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
+    }
+
+    submitTaskApiCall = (id) => {
+        this.props
+            .dispatch(submitTask(id))
+            .then(() => {
+                let result = this.props.submitTaskSuccessFailure;
+                if (result && result.isSuccess) {
+                    this.showSnackBarEvent(result.response.message, true);
+                    this.fetchTasks();
+                } else {
+                    this.showSnackBarEvent(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
+    }
+
+    deleteTaskApiCall = (id) => {
+        this.props
+            .dispatch(deleteTask(id))
+            .then(() => {
+                let result = this.props.deleteTaskSuccessFailure;
+                if (result && result.isSuccess) {
+                    this.showSnackBarEvent(result.response.message, true);
+                    this.fetchTasks();
+                } else {
+                    this.showSnackBarEvent(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
+    }
+
+    updateTask = (data) => {
+        this.props.history.push({
+            pathname: routePathNames.UPDATE_TASK,
+            state: {
+                isUpdate: true,
+                data: data
+            }
+        });
+    }
+
     render() {
+        let { isDataLoaded } = this.state;
         return (
             <div className="container-fluid row parent-div center" >
                 <div className="col-md-12 col-sm-12 div-center-align-bread">
@@ -87,23 +113,57 @@ class TaskList extends Component {
                         {"Task List"}
                     </span>
                 </div>
-                <div className="row" style={{ marginTop: 25 }}>
-                    <div className="col-sm-12 col-md-12 col-lg-6">
-                        <TicketPannelCard
-                            title={"All task"}
-                            data={this.state.ticketArr}
-                        />
-                    </div>
-                    <div className="col-sm-12 col-md-12 col-lg-6">
-                        <TicketPannelCard
-                            title={"Submitted task"}
-                            data={this.state.ticketArr}
-                        />
-                    </div>
-                </div>
+                {
+                    isDataLoaded ?
+                        <div className="row" style={{ marginTop: 25 }}>
+                            <div className="col-sm-12 col-md-12 col-lg-6">
+                                <TaskPannelCard
+                                    title={"All task"}
+                                    data={this.state.allTasks}
+                                    showManageSection={true}
+                                    editCallback={this.updateTask}
+                                    deleteCallback={this.deleteTaskApiCall}
+                                    submitCallback={this.submitTaskApiCall}
+                                />
+                            </div>
+                            <div className="col-sm-12 col-md-12 col-lg-6">
+                                <TaskPannelCard
+                                    title={"Submitted task"}
+                                    data={this.state.submittedTasks}
+                                    showManageSection={false}
+                                />
+                            </div>
+                        </div>
+                        : null
+                }
+                <Loading isFetching={this.props.isFetching} />
+                <ShowSnackBar
+                    message={this.state.message}
+                    toggle={this.state.toggle}
+                    handleClose={this.handleSnackBar}
+                    snackbarStatus={this.state.snackbarStatus}
+                />
             </div>
         );
     }
 }
 
-export default TaskList;
+const mapStateToProps = (state) => {
+    return {
+        isFetching: state.task.isFetching,
+        getAllTasksSuccessFailure: state.task.getAllTasksSuccessFailure,
+        submitTaskSuccessFailure: state.task.submitTaskSuccessFailure,
+        deleteTaskSuccessFailure: state.task.deleteTaskSuccessFailure,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+    ...bindActionCreators({
+        getAllTasks
+    }),
+    dispatch,
+});
+
+export default withRouter(
+    connect(mapStateToProps, mapDispatchToProps)(TaskList)
+);

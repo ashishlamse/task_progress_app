@@ -2,7 +2,9 @@ import {
     REQUEST_TASK,
     CREATE_NEW_TASK_SUCCESS_FAILURE,
     UPDATE_TASK_SUCCESS_FAILURE,
-    DELETE_TASK_SUCCESS_FAILURE
+    DELETE_TASK_SUCCESS_FAILURE,
+    ALL_TASKS_SUCCESS_FAILURE,
+    SUBMIT_TASK_SUCCESS_FAILURE
 } from "../actions/task";
 
 const initialState = {
@@ -10,6 +12,8 @@ const initialState = {
     createNewTaskSuccessFailure: undefined,
     updateTaskSuccessFailure: undefined,
     deleteTaskSuccessFailure: undefined,
+    getAllTasksSuccessFailure: undefined,
+    submitTaskSuccessFailure: undefined
 };
 
 export default (state = initialState, actions) => {
@@ -36,6 +40,18 @@ export default (state = initialState, actions) => {
                 ...state,
                 isFetching: false,
                 deleteTaskSuccessFailure: actions.deleteTaskSuccessFailure
+            };
+        case ALL_TASKS_SUCCESS_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                getAllTasksSuccessFailure: actions.getAllTasksSuccessFailure
+            };
+        case SUBMIT_TASK_SUCCESS_FAILURE:
+            return {
+                ...state,
+                isFetching: false,
+                submitTaskSuccessFailure: actions.submitTaskSuccessFailure
             };
         default:
             return state;

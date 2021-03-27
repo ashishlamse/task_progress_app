@@ -12,6 +12,7 @@ import {
     Link,
     Switch,
   } from "react-router-dom";
+  import TaskAnalytics from './taskAnalytics';
 
   
 class DashBoard extends Component {
@@ -42,8 +43,18 @@ class DashBoard extends Component {
                         />
                         <Route
                         exact
+                        path={routePathNames.UPDATE_TASK}
+                        render={(routeProps) => <CreateTask {...routeProps} />}
+                        />
+                        <Route
+                        exact
                         path={routePathNames.TASK_LIST}
                         render={(routeProps) => <TaskList {...routeProps} />}
+                        />
+                        <Route
+                        exact
+                        path={routePathNames.CHARTS}
+                        render={(routeProps) => <TaskAnalytics {...routeProps} />}
                         />
                     </Switch>
                     </div>     

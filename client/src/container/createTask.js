@@ -38,6 +38,17 @@ class CreateTask extends Component {
     }
 
     componentDidMount() {
+        this.checkUrlProps();
+    }
+
+    checkUrlProps = () => {
+        console.log("isUpdate", this.props.location);
+        let urlProps = this.props.location;
+        if (urlProps && urlProps.state && urlProps.state.isUpdate) {
+            let data = _.get(this.props.location, 'state')
+            console.log("isUpdate2", this.props.location, data);
+        }
+
     }
 
     handleChange = (val, name) => {
@@ -176,17 +187,23 @@ class CreateTask extends Component {
         let data = imageData[0];
         let baseData =
             data && data.base64 ? data.base64.split(",")[1] : '';
+        let isImagePresent =
+            data && data.base64 ? true : false;
         if (this.checkEmpty()) {
-            let body = {
-                "deadline": deadlineDate,
-                "task_name": taskName,
-                "description": taskDescription,
-                "priority": selectedPriority && selectedPriority.value ? selectedPriority.value : "",
-                "status": selectedStage && selectedStage.value ? selectedStage.value : "",
-                "imageFile": baseData
+            if (isImagePresent) {
+                let body = {
+                    "deadline": deadlineDate,
+                    "task_name": taskName,
+                    "description": taskDescription,
+                    "priority": selectedPriority && selectedPriority.value ? selectedPriority.value : "",
+                    "status": selectedStage && selectedStage.value ? selectedStage.value : "",
+                    "imageFile": baseData
+                }
+                console.log("submitTask body", body)
+                this.createTaskApiCall(body);
+            } else {
+                this.showSnackBarEvent(alert.upload);
             }
-            console.log("submitTask body", body)
-            this.createTaskApiCall(body);
         } else {
             this.showSnackBarEvent(alert.mandatoryFields);
         }
@@ -210,7 +227,7 @@ class CreateTask extends Component {
                 let result = this.props.createNewTaskSuccessFailure;
                 if (result && result.isSuccess) {
                     console.log("createTaskApiCall -> result", result);
-                    this.showSnackBarEvent(result.response.message);
+                    this.showSnackBarEvent(result.response.message, true);
                     this.clearData();
                 } else {
                     this.showSnackBarEvent(result.message);
