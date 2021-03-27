@@ -23,7 +23,7 @@ export default class Card extends React.Component {
           <span onClick={() => this.props.editCallback(this.props.taskDetails)} style={{ marginRight: '0.5rem', marginLeft: '0.5rem' }}>
             <MdModeEdit title={'Edit'} className="icon-style" />
           </span>
-          <span onClick={() => this.props.deleteCallback(this.props.taskDetails["_id"])}>
+          <span onClick={() => this.props.deleteCallback(this.props.taskDetails["_id"], this.props.taskDetails["task_name"])}>
             <AiFillDelete title={'Delete'} className="icon-style" />
           </span>
         </span>
@@ -44,6 +44,7 @@ export default class Card extends React.Component {
   }
 
   render() {
+    console.log('this.props', this.props);
     let priority = this.props.taskDetails["priority"];
     let color = "#ea7d24";
     if (priority === "High") {

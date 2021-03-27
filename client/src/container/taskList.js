@@ -10,14 +10,16 @@ import _ from "lodash";
 import Loading from "../component/loading";
 import { getAllTasks, deleteTask, submitTask } from '../redux/actions/task'
 import { routePathNames } from '../utils/constants'
-
+import DeleteModal from '../component/deleteModal';
+import { Modal } from 'bootstrap';
 class TaskList extends Component {
     constructor() {
         super();
         this.state = {
             allTasks: [],
             submittedTasks: [],
-            isDataLoaded: false
+            isDataLoaded: false,
+            selectedTask: {}
         };
     }
 
@@ -77,7 +79,22 @@ class TaskList extends Component {
             });
     }
 
+    toggleConfirmation = (id, name) => {
+        var myModal = new Modal(document.getElementById('deleteTaskModal'), {
+            keyboard: false
+        });
+        this.setState({ selectedTask: { id, name }, myModal });
+        myModal.toggle();
+    }
+
+    onCancelDelete = () => {
+        this.state.myModal.toggle();
+        this.setState({ selectedTask: {}, myModal: '' });
+    };
+
     deleteTaskApiCall = (id) => {
+        this.state.myModal.toggle();
+        this.setState({ selectedTask: {}, myModal: '' });
         this.props
             .dispatch(deleteTask(id))
             .then(() => {
@@ -122,7 +139,7 @@ class TaskList extends Component {
                                     data={this.state.allTasks}
                                     showManageSection={true}
                                     editCallback={this.updateTask}
-                                    deleteCallback={this.deleteTaskApiCall}
+                                    deleteCallback={this.toggleConfirmation}
                                     submitCallback={this.submitTaskApiCall}
                                 />
                             </div>
@@ -142,6 +159,12 @@ class TaskList extends Component {
                     toggle={this.state.toggle}
                     handleClose={this.handleSnackBar}
                     snackbarStatus={this.state.snackbarStatus}
+                />
+                <DeleteModal
+                    onConfirm={this.deleteTaskApiCall}
+                    onCancelDelete={this.onCancelDelete}
+                    id={this.state.selectedTask.id}
+                    name={this.state.selectedTask.name}
                 />
             </div>
         );

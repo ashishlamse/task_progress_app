@@ -371,7 +371,9 @@ class CreateTask extends Component {
                                     {this.renderDeadline()}
                                     {this.renderImageDropZone()}
                                     <div className="submit-btn">
-                                        <button onClick={this.submitTask} type="button" class="col-md-3 btn btn-primary btn-block submit-btn-style">Create Task</button>
+                                        <button onClick={this.submitTask} type="button" class="col-md-3 btn btn-primary btn-block submit-btn-style">
+                                            {this.state.id ? 'Update' : 'Create'} Task
+                                        </button>
                                     </div>
                                 </div>
                             </div>
