@@ -22,7 +22,7 @@ export function signinSuccessFailure(signinSuccessFailure) {
 export function signin(body) {
     return dispatch => {
         dispatch(requestUserSignin());
-        return AxiosInstance.post(GOOGLE_CLOUD_BASE_URL + "login", body).then(res => {
+        return AxiosInstance.post(GOOGLE_CLOUD_BASE_URL + "signIn", body).then(res => {
             dispatch(signinSuccessFailure({ isSuccess: true, response: res.data }))
         }).catch(error => {
             dispatch(signinSuccessFailure({ isSuccess: false, message: error.response.data.message }))

@@ -5,6 +5,7 @@ import './App.css'
 import { routePathNames } from '../src/utils/constants'
 import SignIn from "./container/signIn";
 import SignUp from "./container/signUp";
+import DashBoard from "./container/dashboard";
 
 const history = createBrowserHistory();
 
@@ -17,6 +18,7 @@ class App extends Component {
         return (
             <Router basename={process.env.PUBLIC_URL} history={history}>
                 <Route exact path={routePathNames.SIGNIN} component={SignIn} />
+                <Route exact path={routePathNames.DASHBOARD} component={DashBoard} />
                 <Route exact path={routePathNames.SIGNUP} component={SignUp} />
                 <Switch>
                     {/* <Route path={routePathNames.DASHBOARD} component={Dashboard} /> */}

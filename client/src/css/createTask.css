@@ -1,0 +1,51 @@
+.parent-div {
+  background-color: #f2f2f2 !important;
+  padding-bottom: 5rem;
+  margin-right: 0px !important;
+  margin-left: 0px !important;
+}
+
+.margin-top-div {
+  margin-top: 1rem;
+}
+
+.label-style {
+  color: #5a6772;
+  font-family: "Montserrat";
+  font-weight: bold;
+}
+
+.parent {
+  font-size: 25px;
+  color: #5a6772;
+  font-weight: normal;
+  font-family: "Montserrat";
+}
+
+.div-center-align-bread {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: center;
+  padding: 10px;
+  border-bottom-width: 1px;
+  border-bottom-color: #d3d3d3;
+  border-bottom-style: solid;
+  width: 100%;
+  cursor: default;
+}
+
+.submit-btn {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  margin-top: 30px;
+}
+
+.submit-btn-style {
+  background-color: #95c94f !important;
+  color: #000 !important;
+  outline: none !important;
+  box-shadow: none !important;
+  border-width: 0px !important;
+}

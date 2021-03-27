@@ -1,119 +1,12 @@
-.App {
-  text-align: center;
+.react-datepicker-wrapper {
+  display: flex !important;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
-
-.App-intro {
-  font-size: large;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.num-of-line-1 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 1; /* number of lines to show */
-  -webkit-box-orient: vertical;
-}
-
-.num-of-line-2 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2; /* number of lines to show */
-  -webkit-box-orient: vertical;
-}
-
-.MuiAppBar-colorPrimary {
-  padding: 0 0 0 0 !important;
-}
-
-.MuiAppBar-colorPrimary {
-  background-color: #fff !important;
-}
-
-.MuiListItemIcon-root .MuiSvgIcon-root {
-  color: #fff !important;
-}
-
-.MuiIconButton-label .MuiSvgIcon-root {
-  color: #000 !important;
-}
-
-.MuiToolbar-regular {
-  height: 5rem !important;
-}
-
-.css-1l1h74o-ValueContainer {
-  overflow-y: scroll !important;
-  padding-top: 1px !important;
-  scrollbar-width: none !important;
-  -ms-overflow-style: none; /* IE and Edge */
-}
-
-.css-1l1h74o-ValueContainer::-webkit-scrollbar {
-  display: none !important;
-}
-
-.app-font-style {
-  font-family: "Montserrat" !important;
-}
-
-.empty-text-style {
-  font-family: "Montserrat" !important;
-  font-size: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-  margin-top: 10rem;
-}
-
-.react-datepicker__navigation--next {
-  outline-style: none !important;
-}
-
-input[type="password"] {
-  font-size: medium !important;
-}
-
-.padder-left-5 {
-  padding-left: 5px;
-}
-
-.required:after {
-  content: " *";
-  color: red;
-}
-
-.Select-value-label,
-.Select-option {
-  white-space: pre-wrap !important;
-}
-
-.width-select-option {
-  width: 1.5rem !important;
+.copyright-footer {
+  text-align: center !important;
+  bottom: 0 !important;
+  /* position: absolute !important; */
+  align-self: center;
+  background-color: darkgrey;
+  width: 100%;
 }

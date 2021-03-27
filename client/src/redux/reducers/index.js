@@ -1,7 +1,7 @@
 import { combineReducers } from "redux";
 
 import getRestaurentTypes from "../reducers/getRestaurentTypes";
-import registerRestaurant from "../reducers/register";
+import register from "../reducers/register";
 import signin from "../reducers/signin";
 import forgotPassword from "../reducers/forgotPassword";
 import resetPassword from "../reducers/resetPassword";
@@ -15,7 +15,7 @@ import notification from '../reducers/notification'
 
 const rootReducer = combineReducers({
     getRestaurentTypes,
-    registerRestaurant,
+    register,
     signin,
     forgotPassword,
     resetPassword,

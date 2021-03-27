@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { signin } from "../redux/actions/signin";
+import { register } from "../redux/actions/register";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import ShowSnackBar from "../component/snackBar";
@@ -47,19 +47,20 @@ class SignUp extends Component {
 
   /* submit function */
   submituserLoginForm = (e) => {
-    utils.setCorsHeader();
     e.preventDefault();
     if (this.validateForm()) {
       let body = {
-        username: this.state.email,
-        password: this.state.password,
+        first_name:this.state.firstName,
+        last_name:this.state.lastName,
+        email:this.state.email,
+        password:this.state.password
       };
       this.props
-        .dispatch(signin(body))
+        .dispatch(register(body))
         .then(() => {
-          let result = this.props.signinSuccessFailure;
+          let result = this.props.registerSuccessFailure;
           if (result && result.isSuccess) {
-            this.props.history.push(routePathNames.WELCOME_HOME);
+            this.props.history.push(routePathNames.DASHBOARD);
           } else {
             this.showSnackBarEvent(
               result && result.message
@@ -199,13 +200,13 @@ class SignUp extends Component {
 }
 const mapStateToProps = (state) => {
   return {
-    isFetching: state.signin.isFetching,
-    signinSuccessFailure: state.signin.signinSuccessFailure,
+    isFetching: state.register.isFetching,
+    registerSuccessFailure: state.register.registerSuccessFailure,
   };
 };
 const mapDispatchToProps = (dispatch) => ({
   ...bindActionCreators({
-    signin,
+    register,
   }),
   dispatch,
 });

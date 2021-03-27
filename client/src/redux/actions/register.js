@@ -19,10 +19,10 @@ export function registerSuccessFailure(registerSuccessFailure) {
 }
 
 
-export function registerRestaurant(body) {
+export function register(body) {
     return dispatch => {
         dispatch(requestRegister());
-        return AxiosInstance.post(GOOGLE_CLOUD_BASE_URL + "registerRestaurent", body).then(res => {
+        return AxiosInstance.post(GOOGLE_CLOUD_BASE_URL + "users", body).then(res => {
             dispatch(registerSuccessFailure({ isSuccess: true, response: res.data }))
         }).catch(error => {
             dispatch(registerSuccessFailure({ isSuccess: false, message: error.response.data.message }))
