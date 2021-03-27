@@ -44,10 +44,10 @@ export function updateTaskSuccessFailure(updateTaskSuccessFailure) {
 
 
 export function updateTask(body, id) {
-    console.log("updateTask -> body", body)
+    console.log("updateTask -> body", body, id)
     return dispatch => {
         dispatch(requestTaskLoad());
-        return AxiosInstance.put(GOOGLE_CLOUD_BASE_URL + "" + id, body).then(res => {
+        return AxiosInstance.put(GOOGLE_CLOUD_BASE_URL + "task/" + id, body).then(res => {
             dispatch(updateTaskSuccessFailure({ isSuccess: true, response: res.data }))
         }).catch(error => {
             dispatch(updateTaskSuccessFailure({ isSuccess: false, message: error.response.data.message }))

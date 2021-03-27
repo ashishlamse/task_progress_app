@@ -11,7 +11,7 @@ import ImageDropZone from '../component/imageDropZone';
 import "../css/createTask.css"
 import "react-datepicker/dist/react-datepicker.css";
 import { alert } from '../utils/constants'
-import { createNewTask } from '../redux/actions/task'
+import { createNewTask, updateTask } from '../redux/actions/task'
 
 class CreateTask extends Component {
     constructor(props) {
@@ -33,7 +33,9 @@ class CreateTask extends Component {
             selectedPriority: '',
             selectedStage: '',
             imageData: [{}],
-            deadlineDate: ''
+            deadlineDate: '',
+            updatedImage: '',
+            id: ''
         };
     }
 
@@ -45,8 +47,33 @@ class CreateTask extends Component {
         console.log("isUpdate", this.props.location);
         let urlProps = this.props.location;
         if (urlProps && urlProps.state && urlProps.state.isUpdate) {
-            let data = _.get(this.props.location, 'state')
+            let isUpdate = urlProps.state.isUpdate;
+            let data = urlProps.state.data;
+            let image = data.document_upload;
+            let imgArray = [{
+                preview: image,
+            }]
+            this.setState({
+                isUpdate: isUpdate,
+                taskName: data.task_name,
+                taskDescription: data.description,
+                selectedPriority: this.makeLabelValueObject(data.priority),
+                selectedStage: this.makeLabelValueObject(data.status),
+                imageData: imgArray,
+                deadlineDate: new Date(data.deadline),
+                updatedImage: data.document_upload,
+                id: data._id
+            }, () => {
+                console.log("isUpdate3", this.state);
+            })
             console.log("isUpdate2", this.props.location, data);
+        }
+    }
+
+    makeLabelValueObject = (data) => {
+        return {
+            label: data,
+            value: data
         }
 
     }
@@ -136,13 +163,15 @@ class CreateTask extends Component {
     };
 
     syncImageData = (data) => {
+        console.log("CreateTask ~ data", data)
         if (data && data.length) {
             this.setState({
                 imageData: data
             })
         } else {
             this.setState({
-                imageData: [{}]
+                imageData: [{}],
+                updatedImage: ''
             })
         }
     };
@@ -183,12 +212,15 @@ class CreateTask extends Component {
     };
 
     submitTask = () => {
-        let { taskName, taskDescription, selectedPriority, selectedStage, deadlineDate, imageData } = this.state;
+        let { taskName, taskDescription, selectedPriority, selectedStage, deadlineDate, imageData, updatedImage } = this.state;
         let data = imageData[0];
         let baseData =
-            data && data.base64 ? data.base64.split(",")[1] : '';
+            data && data.base64 ? data.base64.split(",")[1] : updatedImage;
         let isImagePresent =
-            data && data.base64 ? true : false;
+            data && data.preview ? true : false;
+        let imagePreview = data && data.preview ? data.preview : "";
+        let isImageChange = updatedImage === imagePreview ? false : true;
+
         if (this.checkEmpty()) {
             if (isImagePresent) {
                 let body = {
@@ -197,10 +229,16 @@ class CreateTask extends Component {
                     "description": taskDescription,
                     "priority": selectedPriority && selectedPriority.value ? selectedPriority.value : "",
                     "status": selectedStage && selectedStage.value ? selectedStage.value : "",
-                    "imageFile": baseData
+                    "imageFile": baseData,
+                    imageFlag: isImageChange
                 }
                 console.log("submitTask body", body)
-                this.createTaskApiCall(body);
+                if (this.state.isUpdate) {
+                    this.updateTaskApiCall(body)
+                }
+                else {
+                    this.createTaskApiCall(body);
+                }
             } else {
                 this.showSnackBarEvent(alert.upload);
             }
@@ -228,6 +266,25 @@ class CreateTask extends Component {
                 if (result && result.isSuccess) {
                     console.log("createTaskApiCall -> result", result);
                     this.showSnackBarEvent(result.response.message, true);
+                    this.clearData();
+                } else {
+                    this.showSnackBarEvent(result.message);
+                }
+            })
+            .catch((error) => {
+                console.log("error", error);
+            });
+    }
+
+    updateTaskApiCall = (body) => {
+        this.props
+            .dispatch(updateTask(body, this.state.id))
+            .then(() => {
+                let result = this.props.updateTaskSuccessFailure;
+                if (result && result.isSuccess) {
+                    console.log("updateTaskApiCall -> result", result);
+                    this.showSnackBarEvent('Task Updated', true);
+                    this.props.history.goBack();
                     this.clearData();
                 } else {
                     this.showSnackBarEvent(result.message);
@@ -337,12 +394,14 @@ const mapStateToProps = (state) => {
     return {
         isFetching: state.task.isFetching,
         createNewTaskSuccessFailure: state.task.createNewTaskSuccessFailure,
+        updateTaskSuccessFailure: state.task.updateTaskSuccessFailure,
     };
 };
 
 const mapDispatchToProps = (dispatch) => ({
     ...bindActionCreators({
-        createNewTask
+        createNewTask,
+        updateTask
     }),
     dispatch,
 });

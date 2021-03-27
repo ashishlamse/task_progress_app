@@ -3,6 +3,7 @@ import { useDropzone } from "react-dropzone";
 import _ from "lodash";
 
 function ImageDropZone(props) {
+    console.log("ImageDropZone ~ props", props)
     const [files, setFiles] = useState(props.imageData);
     const { getRootProps, getInputProps } = useDropzone({
         accept: "image/*",
@@ -61,8 +62,11 @@ function ImageDropZone(props) {
     useEffect(() => {
         // Make sure to revoke the data uris to avoid memory leaks
         // files.forEach((file) => URL.revokeObjectURL(file.preview));
-        props.syncImageDataCallback(files);
         console.log("files", files);
+        let data = files[0];
+        if (files && files.length && !_.isEmpty(data)) {
+            props.syncImageDataCallback(files);
+        }
     }, [files]);
 
     const removeImage = (event) => {
@@ -81,7 +85,7 @@ function ImageDropZone(props) {
                             style={{
                                 position: "absolute",
                                 paddingTop: "135px",
-                                color: "#EF5350",
+                                color: "#95c94f",
                             }}
                         >
                             <span
@@ -89,7 +93,7 @@ function ImageDropZone(props) {
                                 onClick={(event) => removeImage(event)}
                             >
                                 Remove
-              </span>
+                            </span>
                         </div>
                     </aside>
                 ) : (
