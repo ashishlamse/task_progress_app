@@ -1,35 +1,48 @@
 import React from "react";
 import ReactEcharts from "echarts-for-react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { useHistory, withRouter } from "react-router-dom";
+import { getStatistics } from '../redux/actions/stats'
+import _ from 'lodash'
+import EmptyPage from '../component/emptyPage'
+import Loading from "../component/loading";
 
-export default class TaskAnalytics extends React.Component {
+class TaskAnalytics extends React.Component {
   constructor() {
     super();
     this.state = {
-      xAxisArray: [
-        "20/1/2021",
-        "21/1/2021",
-        "22/12/2021",
-        "23/1/2021",
-        "24/1/2021",
-        "25/1/2021",
-        "26/1/2021",
-        "08/1/2021",
-        "03/1/2021",
-        "06/1/2021"
-      ],
-      taskPerDayArr: [
-        { createdDate: "20/1/2021", value: 2 },
-        { createdDate: "21/1/2021", value: 5 },
-        { createdDate: "22/12/2021", value: 7 },
-        { createdDate: "23/1/2021", value: 8 },
-        { createdDate: "24/1/2021", value: 1 },
-        { createdDate: "25/1/2021", value: 2 },
-        { createdDate: "26/1/2021", value: 10 },
-        { createdDate: "08/1/2021", value: 1 },
-        { createdDate: "03/1/2021", value: 18 },
-        { createdDate: "06/1/2021", value: 23 }
-      ]
+      xAxisArray: [],
+      taskPerDayArr: []
     };
+  }
+
+  componentDidMount() {
+    this.getStatsReport();
+  }
+
+  getStatsReport = () => {
+    this.props
+      .dispatch(getStatistics())
+      .then(() => {
+        let result = this.props.statsSuccessFailure;
+        if (result && result.isSuccess) {
+          console.log("getStatsReport -> result", result);
+          let data = result.response.count;
+          data.map((item) => {
+            item.createdDate = item.date;
+            item.value = item.count
+          })
+          let xAxisArray = _.map(result.response.count, 'date');
+          this.setState({
+            taskPerDayArr: data,
+            xAxisArray: xAxisArray
+          })
+        }
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
   }
 
   render() {
@@ -40,61 +53,84 @@ export default class TaskAnalytics extends React.Component {
             {"Tasks Statistics"}
           </span>
         </div>
-        <div className="row margin-top-div">
-          <ReactEcharts
-            option={{
-              toolbox: {
-                orient: "horizontal",
-                feature: {
-                  magicType: {
-                    type: ["line", "bar"],
-                    title: {
-                      line: "Line Chart",
-                      bar: "Bar Chart"
+        {
+          this.state.taskPerDayArr && this.state.taskPerDayArr.length ?
+            < div className="row margin-top-div">
+              <ReactEcharts
+                option={{
+                  toolbox: {
+                    orient: "horizontal",
+                    feature: {
+                      magicType: {
+                        type: ["line", "bar"],
+                        title: {
+                          line: "Line Chart",
+                          bar: "Bar Chart"
+                        }
+                      }
                     }
-                  }
-                }
-              },
-              xAxis: {
-                type: "category",
-                boundaryGap: false,
-                data: this.state.xAxisArray,
-                name: "Tasks creation logs",
-                nameLocation: "center",
-                nameGap: 28,
-                nameTextStyle: {
-                  fontWeight: "bolder"
-                }
-              },
-              yAxis: {
-                type: "value",
-                name: "Tasks created per day",
-                nameLocation: "center",
-                nameGap: 28,
-                nameTextStyle: {
-                  fontWeight: "bolder"
-                }
-              },
-              series: [
-                {
-                  data: this.state.taskPerDayArr,
-                  type: "line",
-                  areaStyle: {
-                    color: "#d2e9f2"
                   },
-                  lineStyle: {
-                    color: "#73c0de"
+                  xAxis: {
+                    type: "category",
+                    boundaryGap: false,
+                    data: this.state.xAxisArray,
+                    name: "Tasks creation logs",
+                    nameLocation: "center",
+                    nameGap: 28,
+                    nameTextStyle: {
+                      fontWeight: "bolder"
+                    }
                   },
-                  itemStyle: {
-                    color: "#0057b8"
-                  }
-                }
-              ]
-            }}
-            style={{ height: "380px", width: "100%" }}
-          />
-        </div>
+                  yAxis: {
+                    type: "value",
+                    name: "Tasks created per day",
+                    nameLocation: "center",
+                    nameGap: 28,
+                    nameTextStyle: {
+                      fontWeight: "bolder"
+                    }
+                  },
+                  series: [
+                    {
+                      data: this.state.taskPerDayArr,
+                      type: "line",
+                      areaStyle: {
+                        color: "#d2e9f2"
+                      },
+                      lineStyle: {
+                        color: "#73c0de"
+                      },
+                      itemStyle: {
+                        color: "#0057b8"
+                      }
+                    }
+                  ]
+                }}
+                style={{ height: "380px", width: "100%" }}
+              />
+            </div>
+            :
+            this.props.isFetching || <EmptyPage />
+        }
+        <Loading isFetching={this.props.isFetching} />
       </div>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    isFetching: state.statistics.isFetching,
+    statsSuccessFailure: state.statistics.statsSuccessFailure,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  ...bindActionCreators({
+    getStatistics
+  }),
+  dispatch,
+});
+
+export default withRouter(
+  connect(mapStateToProps, mapDispatchToProps)(TaskAnalytics))

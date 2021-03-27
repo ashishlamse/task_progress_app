@@ -193,7 +193,6 @@ taskRouts.updateStatus=async(req,res)=>{
         return res.status(404).json({message:message.INVALID_ID});
     
         let task = await Task.findById(id);
-        console.log(task)
         if (!task) return res.status(404).json({message:message.TASK_NOT_FOUND});
     
     
