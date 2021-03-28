@@ -45,7 +45,6 @@ export default class Card extends React.Component {
   }
 
   render() {
-    console.log('this.props', this.props);
     let priority = this.props.taskDetails["priority"];
     let color = "#ea7d24";
     if (priority === "High") {

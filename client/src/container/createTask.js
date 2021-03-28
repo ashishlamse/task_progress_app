@@ -185,7 +185,7 @@ class CreateTask extends Component {
                 <div className="col-md-6">
                     <ImageDropZone
                         placeHolderText={
-                            "Drag 'n' drop single image file here, or click here to select the file."
+                            "Drag 'n' drop single file here, or click here to select the file."
                         }
                         height={"200px"}
                         width={"100%"}
@@ -220,7 +220,7 @@ class CreateTask extends Component {
             data && data.preview ? true : false;
         let imagePreview = data && data.preview ? data.preview : "";
         let isImageChange = updatedImage === imagePreview ? false : true;
-
+        let type = data.type;
         if (this.checkEmpty()) {
             if (isImagePresent) {
                 let body = {
@@ -230,7 +230,8 @@ class CreateTask extends Component {
                     "priority": selectedPriority && selectedPriority.value ? selectedPriority.value : "",
                     "status": selectedStage && selectedStage.value ? selectedStage.value : "",
                     "imageFile": baseData,
-                    imageFlag: isImageChange
+                    imageFlag: isImageChange,
+                    type: type
                 }
                 console.log("submitTask body", body)
                 if (this.state.isUpdate) {
@@ -351,7 +352,7 @@ class CreateTask extends Component {
                 <div className="container-fluid row parent-div center" >
                     <div className="col-md-12 col-sm-12 div-center-align-bread">
                         <span className="parent">
-                            {"Create Task"}
+                            {this.state.id ? 'Update' : 'Create'} Task
                         </span>
                     </div>
                     <div className="col-md-12">

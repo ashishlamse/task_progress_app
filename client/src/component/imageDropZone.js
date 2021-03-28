@@ -1,16 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import _ from "lodash";
+import { FilePreviewerThumbnail } from 'react-file-previewer';
 
 function ImageDropZone(props) {
-    console.log("ImageDropZone ~ props", props)
     const [files, setFiles] = useState(props.imageData);
     const { getRootProps, getInputProps } = useDropzone({
-        accept: "image/*",
+        accept: "image/*,.pdf, .doc,.docx,.xml,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         maxFiles: 1,
         onDrop: (acceptedFiles) => {
             if (acceptedFiles && acceptedFiles.length === 1) {
-                console.log("acceptedFiles", acceptedFiles);
                 const reader = new FileReader();
                 reader.readAsDataURL(acceptedFiles[0]);
                 reader.onload = (event) => {
@@ -51,13 +50,33 @@ function ImageDropZone(props) {
         cursor: "pointer",
     };
 
-    const thumbs = files.map((file) => (
-        <div style={thumb} key={file.name}>
-            <div style={thumbInner}>
-                <img src={file.preview} style={img} />
-            </div>
-        </div>
-    ));
+    const thumbs = files.map((file) => {
+        console.log('file', file);
+        if (Object.keys(file).length) {
+            return (
+                <div style={thumb} key={file.name}>
+                    <div style={thumbInner}>
+                        {
+                            file.preview ?
+                                <FilePreviewerThumbnail
+                                    file={{ url: file.preview }}
+                                />
+                                :
+                                <FilePreviewerThumbnail
+                                    file={{
+                                        data: file.base64.split(",")[1],
+                                        mimeType: file.type,
+                                        name: file.name// for download
+                                    }}
+                                />
+                        }
+                    </div>
+                </div>
+            );
+        } else {
+            return null;
+        }
+    });
 
     useEffect(() => {
         // Make sure to revoke the data uris to avoid memory leaks
@@ -107,6 +126,7 @@ function ImageDropZone(props) {
 export default ImageDropZone;
 
 const thumbsContainer = {
+    // width: '100%',
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
@@ -118,6 +138,7 @@ const thumb = {
     border: "1px solid #eaeaea",
     width: 120,
     height: 120,
+    // height: 40,
     padding: 4,
     marginTop: "-10px",
     //   boxSizing: "border-box",
@@ -129,6 +150,7 @@ const thumbInner = {
     justifyContent: "center",
     minWidth: 0,
     overflow: "hidden",
+    // width: '100%'
 };
 
 const img = {
