@@ -4,13 +4,13 @@ const gcs = require('../config');
 const myBucket = gcs.bucket('task_documents');
 
 //  upload image in  bucket
-  const uploadImage = (myFile) => new Promise((resolve, reject) => {
+  const uploadImage = (myFile,types) => new Promise((resolve, reject) => {
     try{
       var imgName=String(new Date().getTime());
       var stream = require('stream');
       var bufferStream = new stream.PassThrough();
       bufferStream.end(Buffer.from(myFile, 'base64'));
-      var  type='image/gif';
+      var  type=types;
       var  file = myBucket.file(imgName);
       var  url = "https://storage.googleapis.com/task_documents/"+imgName;
     
