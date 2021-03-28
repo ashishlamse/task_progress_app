@@ -60,7 +60,7 @@ class SignUp extends Component {
         .then(() => {
           let result = this.props.registerSuccessFailure;
           if (result && result.isSuccess) {
-            this.props.history.push(routePathNames.DASHBOARD);
+            this.props.history.push(routePathNames.SIGNIN);
           } else {
             this.showSnackBarEvent(
               result && result.message
