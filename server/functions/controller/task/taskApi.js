@@ -53,7 +53,7 @@ try{
 
     let submitedtask = await Task.find({submittedStatus:true}).sort( { createdAt: -1 } );
 
-    let task = await Task.find({submittedStatus:false}).sort( {createdAt: -1 } );
+    let task = await Task.find({submittedStatus:false}).sort( { createdAt: -1 } );
     
     return res.status(200).json({task:task,submitedtask:submitedtask});
 
@@ -104,9 +104,9 @@ taskRouts.deleteTask=async(req,res)=>{
 
         var taskSubmit = await Task.findByIdAndRemove(id);	
         return res.status(200).json({message:message.TASK_DELETED});
-    }else{
-        return res.status(501).json({message:message.SOMETHING_WENT_WRONG})
-        }
+     }else{
+         return res.status(501).json({message:message.SOMETHING_WENT_WRONG})
+         }
     }catch(err){
         console.log("Error",err);
         return res.status(502).json({message:message.SOMETHING_WENT_WRONG});
@@ -166,16 +166,19 @@ taskRouts.getCountbyDate=async(req,res)=>{
 
     let taskCount = await Task.aggregate([
         {
-          $group: {
-            _id: {
-              month: { $month: "$createdAt" },
-              day: { $dayOfMonth: "$createdAt" },
-              year: { $year: "$createdAt" }
-            },
-            count: { $sum: 1 }
-          }
+            $match: { submittedStatus: true }
+        },
+        {
+            $group: {
+                _id: {
+                    month: { $month: "$submittedAt" },
+                    day: { $dayOfMonth: "$submittedAt" },
+                    year: { $year: "$submittedAt" }
+                },
+                count: { $sum: 1 }
+            }
         }
-      ]);
+    ]);
     
     taskCount.map(ele=>{
         ele.date=ele._id.year+'-'+ele._id.day+'-'+ele._id.month;
