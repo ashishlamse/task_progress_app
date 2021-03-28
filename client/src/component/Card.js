@@ -5,6 +5,7 @@ import React from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { AiFillDelete, AiOutlineEdit } from "react-icons/ai";
 import StageToggle from '../component/stageAccordian'
+import * as utils from '../utils/index';
 
 import { MdModeEdit } from "react-icons/md";
 
@@ -74,6 +75,9 @@ export default class Card extends React.Component {
           </div>
           <div class="card-footer" style={{ backgroundColor: "white" }}>
             <span className="num-of-line-2" style={{ float: "left" }}>
+              {"Created At" + ': ' + utils.formatDate(this.props.taskDetails['createdAt'])}
+            </span>
+            <span className="num-of-line-2" style={{ float: "left", marginTop: '.4rem' }}>
               {manageByHeading + ': ' + manageByName}
             </span>
           </div>

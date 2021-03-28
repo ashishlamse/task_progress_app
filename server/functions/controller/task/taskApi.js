@@ -18,7 +18,7 @@ try{
 	
     var image=''
     if(req.body.imageFile.length>0){
-         image=await uploadImage(req.body.imageFile);
+         image=await uploadImage(req.body.imageFile,req.body.type);
          image=image.url;
         }
 	    
@@ -138,7 +138,7 @@ try{
         if (!task) return res.status(404).json({message:message.TASK_NOT_FOUND});
     
         if(req.body.imageFlag===true && req.body.imageFile.length>0){
-            image=await uploadImage(req.body.imageFile);
+            image=await uploadImage(req.body.imageFile,req.body.type);
             taskObject.document_upload=image.url;       
         }
 
