@@ -5,7 +5,6 @@ export default class DeleteModal extends Component {
     }
 
     render() {
-        console.log('render delte taskmodule....');
         const { name, id, onConfirm, onCancelDelete } = this.props;
         return (
             <div class="modal" tabindex="-1" id="deleteTaskModal">

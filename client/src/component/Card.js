@@ -44,7 +44,6 @@ export default class Card extends React.Component {
   }
 
   render() {
-    console.log('this.props', this.props);
     let priority = this.props.taskDetails["priority"];
     let color = "#ea7d24";
     if (priority === "High") {
@@ -77,9 +76,6 @@ export default class Card extends React.Component {
             <span className="num-of-line-2" style={{ float: "left" }}>
               {manageByHeading + ': ' + manageByName}
             </span>
-            {/* <span style={{ float: "right" }}>
-              <FaUserAlt />
-            </span> */}
           </div>
         </div>
       </div>
