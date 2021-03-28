@@ -174,13 +174,15 @@ class SignUp extends Component {
                         {this.state.errors.password}
                       </div>
                     </div>
-                    <Link to={routePathNames.SIGNIN} className="link-btn-style">
-                        Return to Login
-                      </Link>
                     <div>
                       <button type="submit" className="login-btn">
                         Register
                       </button>
+                    </div>
+                    <div className="text-center">
+                      <Link to={routePathNames.SIGNIN} className="link-btn-style">
+                        Return to Login
+                      </Link>
                     </div>
                   </form>
                 </div>
